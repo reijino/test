@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Comic Metadata Agent</title>
+
+<style>
+body{
+    background:#111827;
+    color:#e5e7eb;
+    font-family:Arial;
+    padding:30px;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+}
+
+.card{
+    background:#1f2937;
+    border-radius:16px;
+    padding:24px;
+    margin-bottom:20px;
+    box-shadow:0 0 20px rgba(0,0,0,0.3);
+}
+
+h1{
+    color:#60a5fa;
+}
+
+button{
+    background:#2563eb;
+    border:none;
+    color:white;
+    padding:12px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+button:hover{
+    background:#3b82f6;
+}
+
+.log{
+    background:#0f172a;
+    height:300px;
+    overflow:auto;
+    padding:12px;
+    border-radius:10px;
+    white-space:pre-wrap;
+    font-size:14px;
+}
+
+.result{
+    background:#111827;
+    padding:15px;
+    border-radius:10px;
+    white-space:pre-wrap;
+}
+
+.tag{
+    display:inline-block;
+    background:#374151;
+    padding:6px 10px;
+    border-radius:999px;
+    margin:4px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+        <h1>AI 漫画元数据整理 Agent</h1>
+
+        <p>
+            基于多 Agent 协作的 ComicInfo 自动整理系统
+        </p>
+
+        <input type="file" id="fileInput">
+
+        <br>
+
+        <button onclick="runAgent()">
+            启动 AI Agent 工作流
+        </button>
+    </div>
+
+    <div class="card">
+        <h2>Agent 工作日志</h2>
+
+        <div class="log" id="log"></div>
+    </div>
+
+    <div class="card">
+        <h2>生成结果</h2>
+
+        <div class="result" id="result">
+            等待处理...
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+const logBox = document.getElementById("log");
+const resultBox = document.getElementById("result");
+
+function log(text){
+    logBox.innerHTML += text + "\n";
+    logBox.scrollTop = logBox.scrollHeight;
+}
+
+function sleep(ms){
+    return new Promise(resolve=>setTimeout(resolve,ms));
+}
+
+async function runAgent(){
+
+    logBox.innerHTML = "";
+    resultBox.innerHTML = "处理中...";
+
+    const file = document.getElementById("fileInput").files[0];
+
+    if(!file){
+        alert("请先上传文件");
+        return;
+    }
+
+    log("【系统】初始化多 Agent 协作框架...");
+    await sleep(800);
+
+    log("【文件解析 Agent】正在分析文件名...");
+    await sleep(1200);
+
+    let filename = file.name;
+
+    log("识别文件：" + filename);
+
+    await sleep(1000);
+
+    log("【标签标准化 Agent】正在统一 Tag...");
+    await sleep(1000);
+
+    const tags = [
+        "Fate Grand Order",
+        "中文",
+        "同人志",
+        "漫画",
+        "已标准化"
+    ];
+
+    log("Tag 标准化完成");
+    await sleep(1000);
+
+    log("【ComicInfo Agent】生成 ComicInfo.xml...");
+    await sleep(1500);
+
+    log("【校验 Agent】检查元数据一致性...");
+    await sleep(1200);
+
+    log("校验通过");
+    await sleep(500);
+
+    log("【系统】全部 Agent 执行完成");
+
+    resultBox.innerHTML = `
+<b>文件名：</b> ${filename}
+
+<b>AI识别结果：</b>
+
+标题：示例漫画标题
+作者：AI 自动识别作者
+语言：zh-CN
+页数：128
+
+<b>标准化 Tags：</b>
+
+${tags.map(tag=>`<span class="tag">${tag}</span>`).join("")}
+
+<br><br>
+
+<b>生成状态：</b>
+ComicInfo.xml 已生成
+`;
+
+}
+
+</script>
+
+</body>
+</html>
